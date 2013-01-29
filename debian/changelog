@@ -1,3 +1,89 @@
+openssl (0.9.8o-4squeeze13) squeeze-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix CVE-2012-2333: DoS via explicit IV in DTLS
+
+ -- Raphael Geissert <geissert@debian.org>  Wed, 16 May 2012 16:39:28 -0500
+
+openssl (0.9.8o-4squeeze12) squeeze-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix CVE-2012-2131: incomplete fix of CVE-2012-2110
+
+ -- Raphael Geissert <geissert@debian.org>  Tue, 24 Apr 2012 16:41:03 -0500
+
+openssl (0.9.8o-4squeeze11) squeeze-security; urgency=low
+
+  * Really apply CVE-2012-2110
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 19 Apr 2012 21:12:34 +0200
+
+openssl (0.9.8o-4squeeze10) squeeze-security; urgency=low
+
+  * Fix CVE-2012-2110
+  * update CVE-2012-0884 patch to include detecting symmetric crypto errors
+    in PKCS7_decrypt
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 19 Apr 2012 20:30:38 +0200
+
+openssl (0.9.8o-4squeeze9) squeeze-security; urgency=low
+
+  * Fix CVE-2012-1165
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 17 Mar 2012 15:56:07 +0100
+
+openssl (0.9.8o-4squeeze8) squeeze-security; urgency=low
+
+  * Fix CVE-2012-0884
+  * Updated patch for CVE-2011-4619
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Tue, 13 Mar 2012 21:47:38 +0100
+
+openssl (0.9.8o-4squeeze7) squeeze-security; urgency=low
+
+  * Re-upload with new version number.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sun, 22 Jan 2012 10:45:12 +0000
+
+openssl (0.9.8o-4squeeze6) squeeze-security; urgency=low
+
+  * Fix CVE-2012-0050
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 18 Jan 2012 20:59:12 +0100
+
+openssl (0.9.8o-4squeeze5) squeeze-security; urgency=low
+
+  * Fix CVE-2011-4108, CVE-2011-4109, CVE-2011-4576, CVE-2011-4619
+    and CVE-2011-4577
+  * Send alert instead of assertion failure for incorrectly formatted DTLS
+    fragments.  (Closes: #645805)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 14 Jan 2012 22:23:53 +0100
+
+openssl (0.9.8o-4squeeze4) squeeze-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Block Malaysian's Digicert Sdn. Bhd. certificates by marking them
+    as revoked.
+
+ -- Raphael Geissert <geissert@debian.org>  Sun, 06 Nov 2011 11:24:18 -0600
+
+openssl (0.9.8o-4squeeze3) squeeze; urgency=low
+
+  * Non-maintainer upload by the Security Team.
+  * Fix CVE-2011-3210: SSL memory handling for (EC)DH ciphersuites
+
+ -- Raphael Geissert <geissert@debian.org>  Sat, 24 Sep 2011 18:57:14 -0500
+
+openssl (0.9.8o-4squeeze2) squeeze-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Block DigiNotar certificates
+  * Fix CVE-2011-1945: timing attacks against ECDHE_ECDSA makes
+    it easier to determine private keys.
+
+ -- Raphael Geissert <geissert@debian.org>  Mon, 12 Sep 2011 19:49:18 -0500
+
 openssl (0.9.8o-4squeeze1) stable-security; urgency=low
 
   * Fix OCSP stapling parse error (CVE-2011-0014)
