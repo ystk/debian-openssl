@@ -1,8 +1,276 @@
-openssl (0.9.8o-4squeeze1) stable-security; urgency=low
+openssl (1.0.1e-2) unstable; urgency=high
 
-  * Fix OCSP stapling parse error (CVE-2011-0014)
+  * Bump shlibs.  It's needed for the udeb.
+  * Make cpuid work on cpu's that don't set ecx (Closes: #699692)
+  * Fix problem with AES-NI causing bad record mac (Closes: #701868, #702635, #678353)
+  * Fix problem with DTLS version check (Closes: #701826)
+  * Fix segfault in SSL_get_certificate (Closes: #703031)
 
- -- Kurt Roeckx <kurt@roeckx.be>  Thu, 10 Feb 2011 19:06:09 +0100
+ -- Kurt Roeckx <kurt@roeckx.be>  Mon, 18 Mar 2013 20:37:11 +0100
+
+openssl (1.0.1e-1) unstable; urgency=high
+
+  * New upstream version (Closes: #699889)
+    - Fixes CVE-2013-0169, CVE-2012-2686, CVE-2013-0166
+    - Drop renegiotate_tls.patch, applied upstream
+    - Export new CRYPTO_memcmp symbol, update symbol file
+  * Add ssltest_no_sslv2.patch so that "make test" works.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Mon, 11 Feb 2013 19:39:44 +0100
+
+openssl (1.0.1c-5) unstable; urgency=low
+
+  * Re-enable assembler versions on sparc.  They shouldn't have
+    been disabled for sparc v9.  (Closes: #649841)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sun, 09 Sep 2012 08:43:40 +0200
+
+openssl (1.0.1c-4) unstable; urgency=low
+
+  * Fix the configure rules for alpha (Closes: #672710)
+  * Switch the postinst to sh again, there never was a reason to
+    switch it to bash (Closes: #676398)
+  * Fix pic.patch to not use #ifdef in x86cpuid.s, only .S files are
+    preprocessed.  We generate the file again for pic anyway.
+    (Closes: #677468)
+  * Drop Breaks against openssh as it was only for upgrades
+    between versions that were only in testing/unstable.
+    (Closes: #668600)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Tue, 17 Jul 2012 11:49:19 +0200
+
+openssl (1.0.1c-3) unstable; urgency=low
+
+  * Disable padlock engine again, causes problems for hosts not supporting it.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 06 Jun 2012 18:29:37 +0200
+
+openssl (1.0.1c-2) unstable; urgency=high
+
+  * Fix renegiotation when using TLS > 1.0.  This breaks tor.  Patch from
+    upstream.  (Closes: #675990)
+  * Enable the padlock engine by default.
+  * Change default bits from 1024 to 2048 (Closes: #487152)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 06 Jun 2012 00:55:42 +0200
+
+openssl (1.0.1c-1) unstable; urgency=high
+
+  * New upstream version
+    - Fixes CVE-2012-2333 (Closes: #672452)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Fri, 11 May 2012 18:44:51 +0200
+
+openssl (1.0.1b-1) unstable; urgency=high
+
+  * New upstream version
+    - Remaps SSL_OP_NO_TLSv1_1, so applications linked to 1.0.0
+      can talk to servers supporting TLS 1.1 but not TLS 1.2
+    - Drop rc4_hmac_md5.patch, applied upstream
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 26 Apr 2012 23:34:34 +0200
+
+openssl (1.0.1a-3) unstable; urgency=low
+
+  * Use patch from upstream for the rc4_hmac_md5 issue.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 19 Apr 2012 23:16:30 +0200
+
+openssl (1.0.1a-2) unstable; urgency=low
+
+  * Fix rc4_hmac_md5 on non-i386/amd64 arches.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 19 Apr 2012 21:54:42 +0200
+
+openssl (1.0.1a-1) unstable; urgency=high
+
+  * New upstream version
+    - Fixes CVE-2012-2110
+    - Fix crash in rc4_hmac_md5 (Closes: #666405)
+    - Fixes some issues with talking to other servers when TLS 1.1 and 1.2 is
+      supported
+    - Drop patches no_ssl2.patch vpaes.patch tls1.2_client_algorithms.patch,
+      applied upstream.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 19 Apr 2012 19:54:12 +0200
+
+openssl (1.0.1-4) unstable; urgency=low
+
+  * Use official patch for the vpaes problem, also covering amd64.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 31 Mar 2012 20:54:13 +0200
+
+openssl (1.0.1-3) unstable; urgency=high
+
+  * Fix crash in vpaes (Closes: #665836)
+  * use client version when deciding whether to send supported signature
+    algorithms extension
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 31 Mar 2012 18:35:59 +0200
+
+openssl (1.0.1-2) unstable; urgency=low
+
+  * Properly quote the new cflags in Configure
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Mon, 19 Mar 2012 19:56:05 +0100
+
+openssl (1.0.1-1) unstable; urgency=low
+
+  * New upstream version
+    - Remove kfreebsd-pipe.patch, fixed upstream
+    - Update pic.patch, openssl-pod-misspell.patch and make-targets.patch
+    - Add OPENSSL_1.0.1 to version-script.patch and libssl1.0.0.symbols for
+      the new functions.
+    - AES-NI support (Closes: #644743)
+  * pic.patch: upstream made OPENSSL_ia32cap_P and OPENSSL_cpuid_setup
+    hidden on amd64, no need to access it PIC anymore.
+  * pic.patch: Make OPENSSL_ia32cap_P hidden on i386 too (Closes: #663977)
+  * Enable hardening using dpkg-buildflags (Closes: #653495)
+  * s_client and s_server were forcing SSLv3 only connection when SSLv2 was
+    disabled instead of the SSLv2 with upgrade method.  (Closes: #664454)
+  * Add Breaks on openssh < 1:5.9p1-4, it has a too strict version check.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Mon, 19 Mar 2012 18:23:32 +0100
+
+openssl (1.0.0h-1) unstable; urgency=high
+
+  * New upstream version
+    - Fixes CVE-2012-0884
+    - Fixes CVE-2012-1165
+    - Properly fix CVE-2011-4619
+    - pkg-config.patch applied upstream, remove it.
+  * Enable assembler for all i386 arches.  The assembler does proper
+    detection of CPU support, including cpuid support.
+    This should fix a problem with AES 192 and 256 with the padlock
+    engine because of the difference in NO_ASM between the between
+    the i686 optimized library and the engine.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Tue, 13 Mar 2012 21:08:17 +0100
+
+openssl (1.0.0g-1) unstable; urgency=high
+
+  * New upstream version
+    - Fixes CVE-2012-0050
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 18 Jan 2012 20:46:13 +0100
+
+openssl (1.0.0f-1) unstable; urgency=high
+
+  * New upstream version
+    - Fixes CVE-2011-4108, CVE-2011-4576, CVE-2011-4619, CVE-2012-0027,
+      CVE-2011-4577
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 12 Jan 2012 19:02:43 +0100
+
+openssl (1.0.0e-3) unstable; urgency=low
+
+  * Don't build v8 and v9 variants of sparc anymore, they're older than
+    the default.  (Closes: #649841)
+  * Don't build i486 optimized version, that's the default anyway, and
+    it uses assembler that doesn't always work on i486.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Mon, 28 Nov 2011 22:17:26 +0100
+
+openssl (1.0.0e-2.1) unstable; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Block Malaysian's Digicert Sdn. Bhd. certificates by marking them
+    as revoked.
+
+ -- Raphael Geissert <geissert@debian.org>  Sun, 06 Nov 2011 01:39:30 -0600
+
+openssl (1.0.0e-2) unstable; urgency=low
+
+  * Add a missing $(DEB_HOST_MULTIARCH)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 10 Sep 2011 17:02:29 +0200
+
+openssl (1.0.0e-1) unstable; urgency=low
+
+  * New upstream version
+    - Fix bug where CRLs with nextUpdate in the past are sometimes accepted
+      by initialising X509_STORE_CTX properly. (CVE-2011-3207)
+    - Fix SSL memory handling for (EC)DH ciphersuites, in particular
+      for multi-threaded use of ECDH. (CVE-2011-3210)
+    - Add protection against ECDSA timing attacks (CVE-2011-1945)
+  * Block DigiNotar certifiates.  Patch from
+    Raphael Geissert <geissert@debian.org>
+  * Generate hashes for all certs in a file (Closes: #628780, #594524)
+    Patch from Klaus Ethgen <Klaus@Ethgen.de>
+  * Add multiarch support (Closs: #638137)
+    Patch from Steve Langasek / Ubuntu
+  * Symbols from the gost engine were removed because it didn't have
+    a linker file.  Thanks to Roman I Khimov <khimov@altell.ru>
+    (Closes: #631503)
+  * Add support for s390x.  Patch from Aurelien Jarno <aurel32@debian.org>
+    (Closes: #641100)
+  * Add build-arch and build-indep targets to the rules file.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 10 Sep 2011 12:03:13 +0200
+
+openssl (1.0.0d-3) unstable; urgency=low
+
+  * Make it build on sparc64.  Patch from Aurelien Jarno.  (Closes: #626060)
+  * Apply patches from Scott Schaefer <saschaefer@neurodiverse.org> to
+    fix various pod and spelling errors. (Closes: #622820, #605561)
+  * Add missing symbols for the engines (Closes: #623038)
+  * More spelling fixes from Scott Schaefer (Closes: #395424)
+  * Patch from Scott Schaefer to better document pkcs12 password options
+    (Closes: #462489)
+  * Document dgst -hmac option.  Patch by Thorsten Glaser <tg@mirbsd.de>
+    (Closes: #529586)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Mon, 13 Jun 2011 12:39:54 +0200
+
+openssl (1.0.0d-2) unstable; urgency=high
+
+  * Make c_rehash also generate the old subject hash.  Gnutls applications
+    seem to require it.  (Closes: #611102)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 13 Apr 2011 22:36:49 +0200
+
+openssl (1.0.0d-1) unstable; urgency=low
+
+  * New upstream version
+    - Fixes CVE-2011-0014
+  * Make libssl-doc Replaces/Breaks with old libssl-dev packages
+    (Closes: #607609)
+  * Only export the symbols we should, instead of all.
+  * Add symbol file.
+  * Upload to unstable
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 02 Apr 2011 13:19:19 +0000
+
+openssl (1.0.0c-2) experimental; urgency=low
+
+  * Set $ in front of {sparcv9_asm} so that the sparc v9 variant builds.
+  * Always define _GNU_SOURCE, not only for Linux.
+  * Drop SSL2 support (Closes: #589706)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sun, 19 Dec 2010 16:24:16 +0100
+
+openssl (1.0.0c-1) experimental; urgency=low
+
+  * New upstream version (Closes: #578376)
+    - New soname: Rename library packages
+    - Drop patch perl-path.diff, not needed anymore
+    - Drop patches CVE-2010-2939.patch, CVE-2010-3864.patch
+      and CVE-2010-4180.patch: applied upstream.
+    - Update Configure for the new fields for the assembler options
+      per arch.  alpha now makes use of assembler.
+  * Move man3 manpages and demos to libssl-doc (Closes: #470594)
+  * Drop .pod files from openssl package (Closes: #518167)
+  * Don't use RC4_CHAR on amd64 and drop rc4-amd64.patch
+  * Stop using BF_PTR2 on (kfreebd-)amd64.
+  * Drop debian-arm from the list of arches.
+  * Update arm arches to use BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL
+    BF_PTR instead of BN_LLONG DES_RISC1
+  * ia64: Drop RC4_CHAR, add DES_UNROLL DES_INT
+  * powerpc: Use RC4_CHAR RC4_CHUNK DES_RISC1 instead
+    of DES_RISC2 DES_PTR MD2_CHAR RC4_INDEX
+  * s390: Use RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL instead of BN_LLONG
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sun, 12 Dec 2010 15:37:21 +0100
 
 openssl (0.9.8o-4) unstable; urgency=low
 
