@@ -1,3 +1,13 @@
+openssl (0.9.8o-4squeeze15) squeeze-lts; urgency=medium
+
+  * Fix CVE-2014-0076.patch
+  * Fix CVE-2014-0195.patch
+  * Fix CVE-2014-0221.patch
+  * Fix CVE-2014-3470.patch
+  * Fix CVE-2014-0224.patch
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 05 Jun 2014 20:12:34 +0200
+
 openssl (0.9.8o-4squeeze14) squeeze-security; urgency=low
 
   * Fix CVE-2013-0166 and CVE-2013-0169
