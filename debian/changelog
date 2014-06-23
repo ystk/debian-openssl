@@ -1,3 +1,13 @@
+openssl (0.9.8o-4squeeze16) squeeze-lts; urgency=medium
+
+  * Update CVE-2014-0224 patch: Accept CCS after sending finished.
+    (Closes: #751093)
+  * Fix CVE-2012-4929 (CRiME) by disabling zlib compression by default.
+    It can be enabled again by setting the environment variable
+    OPENSSL_NO_DEFAULT_ZLIB.  (Closes: #728055)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 19 Jun 2014 23:39:43 +0200
+
 openssl (0.9.8o-4squeeze15) squeeze-lts; urgency=medium
 
   * Fix CVE-2014-0076.patch
