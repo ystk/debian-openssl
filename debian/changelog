@@ -1,3 +1,13 @@
+openssl (0.9.8o-4squeeze17) squeeze-lts; urgency=medium
+
+  * Fix for CVE-2014-3510
+  * Fix for CVE-2014-3507
+  * Fix for CVE-2014-3506
+  * Fix for CVE-2014-3505
+  * Fix for CVE-2014-3508
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 06 Aug 2014 21:14:30 +0200
+
 openssl (0.9.8o-4squeeze16) squeeze-lts; urgency=medium
 
   * Update CVE-2014-0224 patch: Accept CCS after sending finished.
