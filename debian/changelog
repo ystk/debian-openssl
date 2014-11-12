@@ -1,3 +1,12 @@
+openssl (0.9.8o-4squeeze18) squeeze-lts; urgency=medium
+
+  * Fix CVE-2014-3567
+  * Fix CVE-2014-3568
+  * Add Fallback SCSV support to mitigate CVE-2014-3566
+  * Fix CVE-2014-3569
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 01 Nov 2014 15:04:34 +0100
+
 openssl (0.9.8o-4squeeze17) squeeze-lts; urgency=medium
 
   * Fix for CVE-2014-3510

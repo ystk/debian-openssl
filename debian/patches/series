@@ -56,3 +56,7 @@ Remove-some-duplicate-DTLS-code.patch
 Fix-protocol-downgrade-bug-in-case-of-fragmented-pac.patch
 Fix-DTLS-anonymous-EC-DH-denial-of-service.patch
 Fix-OID-handling.patch
+fallback_scsv.patch
+CVE-2014-3568.patch
+CVE-2014-3567.patch
+CVE-2014-3569.patch
