@@ -60,3 +60,15 @@ fallback_scsv.patch
 CVE-2014-3568.patch
 CVE-2014-3567.patch
 CVE-2014-3569.patch
+0001-Return-error-when-a-bit-string-indicates-an-invalid-.patch
+0002-Add-ASN1_TYPE_cmp-and-X509_ALGOR_cmp.patch
+0004-Fix-various-certificate-fingerprint-issues.patch
+0005-ECDH-downgrade-bug-fix.patch
+0006-Only-allow-ephemeral-RSA-keys-in-export-ciphersuites.patch
+0007-use-correct-function-name.patch
+0009-fix-error-discrepancy.patch
+0010-Fix-for-CVE-2014-3570.patch
+0011-Fix-crash-in-dtls1_get_record-whilst-in-the-listen-s.patch
+0012-Follow-on-from-CVE-2014-3571.-This-fixes-the-code-th.patch
+0013-Fix-typo.patch
+

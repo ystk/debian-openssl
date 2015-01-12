@@ -1,3 +1,14 @@
+openssl (0.9.8o-4squeeze19) squeeze-lts; urgency=medium
+
+  * Fix CVE-2014-8275
+  * Fix CVE-2014-3572
+  * Fix CVE-2015-0204
+  * Fix CVE-2014-3570
+  * Fix CVE-2014-3571
+  * Fix typo related to CVE-2015-0205
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sun, 11 Jan 2015 13:27:41 +0100
+
 openssl (0.9.8o-4squeeze18) squeeze-lts; urgency=medium
 
   * Fix CVE-2014-3567
