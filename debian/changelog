@@ -1,3 +1,16 @@
+openssl (0.9.8o-4squeeze20) squeeze-lts; urgency=medium
+
+  * Fix CVE-2015-0286
+  * Fix CVE-2015-0287
+  * Fix CVE-2015-0289
+  * Fix CVE-2015-0292
+  * Fix CVE-2015-0293
+  * Fix CVE-2015-0209
+  * Fix CVE-2015-0288
+  * Remove export ciphers from DEFAULT.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Fri, 20 Mar 2015 21:18:02 +0100
+
 openssl (0.9.8o-4squeeze19) squeeze-lts; urgency=medium
 
   * Fix CVE-2014-8275

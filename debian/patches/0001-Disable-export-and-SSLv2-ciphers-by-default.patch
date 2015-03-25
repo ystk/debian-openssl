@@ -1,0 +1,96 @@
+From c85c1e08ce4148b64a80497525fa5e5efc87d13a Mon Sep 17 00:00:00 2001
+From: Kurt Roeckx <kurt@roeckx.be>
+Date: Sun, 8 Mar 2015 15:11:33 +0100
+Subject: [PATCH] Disable export and SSLv2 ciphers by default
+
+They are moved to the COMPLEMENTOFDEFAULT instead.
+
+Reviewed-by: Dr. Stephen Henson <steve@openssl.org>
+---
+ CHANGES              |  3 ++-
+ doc/apps/ciphers.pod |  2 +-
+ ssl/ssl.h            |  3 +--
+ ssl/ssl_ciph.c       | 16 +++++++++++++---
+ ssl/ssl_lib.c        |  1 +
+ 5 files changed, 18 insertions(+), 7 deletions(-)
+
+Index: openssl-0.9.8o/doc/apps/ciphers.pod
+===================================================================
+--- openssl-0.9.8o.orig/doc/apps/ciphers.pod
++++ openssl-0.9.8o/doc/apps/ciphers.pod
+@@ -105,7 +105,7 @@ The following is a list of all permitted
+ =item B<DEFAULT>
+ 
+ the default cipher list. This is determined at compile time and is normally
+-B<AES:ALL:!aNULL:!eNULL:+RC4:@STRENGTH>. This must be the first cipher string
++B<ALL:!EXPORT:!aNULL:!eNULL:!SSLv2:@STRENGTH>. This must be the first cipher string
+ specified.
+ 
+ =item B<COMPLEMENTOFDEFAULT>
+Index: openssl-0.9.8o/ssl/ssl.h
+===================================================================
+--- openssl-0.9.8o.orig/ssl/ssl.h
++++ openssl-0.9.8o/ssl/ssl.h
+@@ -319,7 +319,7 @@ extern "C" {
+ /* The following cipher list is used by default.
+  * It also is substituted when an application-defined cipher list string
+  * starts with 'DEFAULT'. */
+-#define SSL_DEFAULT_CIPHER_LIST	"AES:ALL:!aNULL:!eNULL:+RC4:@STRENGTH" /* low priority for RC4 */
++#define SSL_DEFAULT_CIPHER_LIST	"ALL:!EXPORT:!aNULL:!eNULL:!SSLv2:@STRENGTH"
+ 
+ /* Used in SSL_set_shutdown()/SSL_get_shutdown(); */
+ #define SSL_SENT_SHUTDOWN	1
+Index: openssl-0.9.8o/ssl/ssl_ciph.c
+===================================================================
+--- openssl-0.9.8o.orig/ssl/ssl_ciph.c
++++ openssl-0.9.8o/ssl/ssl_ciph.c
+@@ -171,9 +171,9 @@ static const SSL_CIPHER cipher_aliases[]
+ 	/* Don't include eNULL unless specifically enabled. */
+ 	/* Don't include ECC in ALL because these ciphers are not yet official. */
+ 	{0,SSL_TXT_ALL, 0,SSL_ALL & ~SSL_eNULL & ~SSL_kECDH & ~SSL_kECDHE, SSL_ALL ,0,0,0,SSL_ALL,SSL_ALL}, /* must be first */
+-	/* TODO: COMPLEMENT OF ALL and COMPLEMENT OF DEFAULT do not have ECC cipher suites handled properly. */
++	/* TODO: COMPLEMENT OF ALL does not have ECC cipher suites handled properly. */
+ 	{0,SSL_TXT_CMPALL,0,SSL_eNULL,0,0,0,0,SSL_ENC_MASK,0},  /* COMPLEMENT OF ALL */
+-	{0,SSL_TXT_CMPDEF,0,SSL_ADH, 0,0,0,0,SSL_AUTH_MASK,0},
++        {0,SSL_TXT_CMPDEF,0,SSL_ADH,SSL_EXP_MASK,0,0,0,SSL_AUTH_MASK,0},
+ 	{0,SSL_TXT_kKRB5,0,SSL_kKRB5,0,0,0,0,SSL_MKEY_MASK,0},  /* VRS Kerberos5 */
+ 	{0,SSL_TXT_kRSA,0,SSL_kRSA,  0,0,0,0,SSL_MKEY_MASK,0},
+ 	{0,SSL_TXT_kDHr,0,SSL_kDHr,  0,0,0,0,SSL_MKEY_MASK,0},
+@@ -625,6 +625,16 @@ static void ssl_cipher_apply_rule(unsign
+ 
+ 		cp = curr->cipher;
+ 
++                /* Special case: only satisfied by COMPLEMENTOFDEFAULT */
++                if (algo_strength == SSL_EXP_MASK) {
++                    if ((SSL_C_IS_EXPORT(cp) || cp->algorithms & SSL_SSLV2
++                        || cp->algorithms & SSL_aNULL)
++                        && !(cp->algorithms & (SSL_kECDHE|SSL_kECDH)))
++                        goto ok;
++                    else
++                        continue;
++                }
++
+ 		/* If explicit cipher suite, match only that one for its own protocol version.
+ 		 * Usual selection criteria will be used for similar ciphersuites from other version! */
+ 
+@@ -660,6 +670,8 @@ static void ssl_cipher_apply_rule(unsign
+ 		else if (strength_bits != cp->strength_bits)
+ 			continue;	/* does not apply */
+ 
++        ok:
++
+ #ifdef CIPHER_DEBUG
+ 		printf("Action = %d\n", rule);
+ #endif
+Index: openssl-0.9.8o/ssl/ssl_lib.c
+===================================================================
+--- openssl-0.9.8o.orig/ssl/ssl_lib.c
++++ openssl-0.9.8o/ssl/ssl_lib.c
+@@ -1561,6 +1561,7 @@ SSL_CTX *SSL_CTX_new(SSL_METHOD *meth)
+ 
+ 	ssl_create_cipher_list(ret->method,
+ 		&ret->cipher_list,&ret->cipher_list_by_id,
++                meth->version == SSL2_VERSION ? "SSLv2" :
+ 		SSL_DEFAULT_CIPHER_LIST);
+ 	if (ret->cipher_list == NULL
+ 	    || sk_SSL_CIPHER_num(ret->cipher_list) <= 0)
