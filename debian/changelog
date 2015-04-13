@@ -1,3 +1,53 @@
+openssl (1.0.1k-3) unstable; urgency=medium
+
+  * Drop patch 0003-Free-up-passed-ASN.1-structure-if-reused.patch, it at
+    least breaks voms, possibly others. (Closes: #781081)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Tue, 24 Mar 2015 21:34:00 +0100
+
+openssl (1.0.1k-2) unstable; urgency=high
+
+  * Fix CVE-2015-0286
+  * Fix CVE-2015-0287
+  * Fix CVE-2015-0289
+  * Fix CVE-2015-0293 (not affected, SSLv2 disabled)
+  * Fix CVE-2015-0209
+  * Fix CVE-2015-0288
+  * Remove export ciphers from DEFAULT.
+  * Make DTLS always act as if read_ahead is set.  This fixes a regression
+    introduce by the fix for CVE-2014-3571.  (Closes: #775502)
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Fri, 20 Mar 2015 18:24:15 +0100
+
+openssl (1.0.1k-1) unstable; urgency=medium
+
+  * New upstream version
+    - Fixes CVE-2014-3571
+    - Fixes CVE-2015-0206
+    - Fixes CVE-2014-3569
+    - Fixes CVE-2014-3572
+    - Fixes CVE-2015-0204
+    - Fixes CVE-2015-0205
+    - Fixes CVE-2014-8275
+    - Fixes CVE-2014-3570
+  * Drop gnu_source.patch, dgst_hmac.patch: applied upstream
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 08 Jan 2015 20:55:26 +0100
+
+openssl (1.0.1j-1) unstable; urgency=high
+
+  * New upstream release
+    - Fixes CVE-2014-3513
+    - Fixes CVE-2014-3567
+    - Add Fallback SCSV support to mitigate CVE-2014-3566
+    - Fixes CVE-2014-3568
+  * Disables SSLv3 because of CVE-2014-3566
+  * Update dgst_hmac.patch to apply to new upstream version
+  * Drop rehash_pod.patch, applied upstream
+  * Fix openssl_fix_for_x32.patch to apply to new upstream version
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 15 Oct 2014 19:06:38 +0200
+
 openssl (1.0.1i-2) unstable; urgency=medium
 
   * Fix assembler for ppc64le (Closes: #745657)
