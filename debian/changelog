@@ -1,3 +1,14 @@
+openssl (1.0.1k-3+deb8u1) jessie-security; urgency=medium
+
+  * Fix CVE-2015-1791
+  * Fix CVE-2015-1792
+  * Fix CVE-2015-1789
+  * Fix CVE-2015-1790
+  * Fix CVE-2015-1788
+  * CVE-2015-4000: Have minimum of 768 bit for DH
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 11 Jun 2015 20:55:20 +0200
+
 openssl (1.0.1k-3) unstable; urgency=medium
 
   * Drop patch 0003-Free-up-passed-ASN.1-structure-if-reused.patch, it at
