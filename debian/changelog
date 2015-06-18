@@ -1,3 +1,14 @@
+openssl (0.9.8o-4squeeze21) squeeze-lts; urgency=medium
+
+  * Fix CVE-2015-1791
+  * Fix CVE-2015-1792
+  * Fix CVE-2015-1790
+  * Fix CVE-2015-1789
+  * Fix CVE-2014-8176
+  * CVE-2015-4000: Have minimum of 768 bit for DH
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 17 Jun 2015 22:56:27 +0200
+
 openssl (0.9.8o-4squeeze20) squeeze-lts; urgency=medium
 
   * Fix CVE-2015-0286

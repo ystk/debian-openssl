@@ -81,3 +81,9 @@ CVE-2014-3569.patch
 0001-evp-prevent-underflow-in-base64-decoding.patch
 0008-Fix-a-failure-to-NULL-a-pointer-freed-on-error.patch
 0001-Disable-export-and-SSLv2-ciphers-by-default.patch
+CVE-2014-8176.patch
+CVE-2015-4000.patch
+CVE-2015-1789.patch
+CVE-2015-1792.patch
+CVE-2015-1791.patch
+CVE-2015-1790.patch
