@@ -1,3 +1,11 @@
+openssl (1.0.1k-3+deb8u2) jessie-security; urgency=medium
+
+  * Fix CVE-2015-3194
+  * Fix CVE-2015-3195
+  * Fix CVE-2015-3196
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 03 Dec 2015 18:39:46 +0100
+
 openssl (1.0.1k-3+deb8u1) jessie-security; urgency=medium
 
   * Fix CVE-2015-1791
