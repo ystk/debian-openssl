@@ -1,3 +1,9 @@
+openssl (0.9.8o-4squeeze22) squeeze-lts; urgency=medium
+
+  * Fix CVE-2015-3195
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 03 Dec 2015 18:43:36 +0100
+
 openssl (0.9.8o-4squeeze21) squeeze-lts; urgency=medium
 
   * Fix CVE-2015-1791
