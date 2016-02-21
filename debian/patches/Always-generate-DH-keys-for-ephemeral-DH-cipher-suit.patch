@@ -1,0 +1,99 @@
+From 5475d108f64b8a56141dc0b29ac841695f9dfa5f Mon Sep 17 00:00:00 2001
+From: Matt Caswell <matt@openssl.org>
+Date: Thu, 17 Dec 2015 02:57:20 +0000
+Subject: [PATCH 1/2] Always generate DH keys for ephemeral DH cipher suites
+
+Modified version of the commit ffaef3f15 in the master branch by Stephen
+Henson. This makes the SSL_OP_SINGLE_DH_USE option a no-op and always
+generates a new DH key for every handshake regardless.
+
+This is a follow on from CVE-2016-0701. This branch is not impacted by
+that CVE because it does not support X9.42 style parameters. It is still
+possible to generate parameters based on primes that are not "safe",
+although by default OpenSSL does not do this. The documentation does
+sign post that using such parameters is unsafe if the private DH key is
+reused. However to avoid accidental problems or future attacks this commit
+has been backported to this branch.
+
+Issue reported by Antonio Sanso
+---
+ doc/ssl/SSL_CTX_set_tmp_dh_callback.pod | 29 +++++------------------------
+ ssl/s3_lib.c                            | 14 --------------
+ ssl/s3_srvr.c                           | 17 +++--------------
+ ssl/ssl.h                               |  2 +-
+ 4 files changed, 9 insertions(+), 53 deletions(-)
+
+Index: openssl-0.9.8o/ssl/s3_lib.c
+===================================================================
+--- openssl-0.9.8o.orig/ssl/s3_lib.c
++++ openssl-0.9.8o/ssl/s3_lib.c
+@@ -1850,15 +1850,6 @@ long ssl3_ctrl(SSL *s, int cmd, long lar
+ 				SSLerr(SSL_F_SSL3_CTRL, ERR_R_DH_LIB);
+ 				return(ret);
+ 				}
+-			if (!(s->options & SSL_OP_SINGLE_DH_USE))
+-				{
+-				if (!DH_generate_key(dh))
+-					{
+-					DH_free(dh);
+-					SSLerr(SSL_F_SSL3_CTRL, ERR_R_DH_LIB);
+-					return(ret);
+-					}
+-				}
+ 			if (s->cert->dh_tmp != NULL)
+ 				DH_free(s->cert->dh_tmp);
+ 			s->cert->dh_tmp = dh;
+@@ -2131,15 +2122,6 @@ long ssl3_ctx_ctrl(SSL_CTX *ctx, int cmd
+ 			SSLerr(SSL_F_SSL3_CTX_CTRL,ERR_R_DH_LIB);
+ 			return 0;
+ 			}
+-		if (!(ctx->options & SSL_OP_SINGLE_DH_USE))
+-			{
+-			if (!DH_generate_key(new))
+-				{
+-				SSLerr(SSL_F_SSL3_CTX_CTRL,ERR_R_DH_LIB);
+-				DH_free(new);
+-				return 0;
+-				}
+-			}
+ 		if (cert->dh_tmp != NULL)
+ 			DH_free(cert->dh_tmp);
+ 		cert->dh_tmp=new;
+Index: openssl-0.9.8o/ssl/s3_srvr.c
+===================================================================
+--- openssl-0.9.8o.orig/ssl/s3_srvr.c
++++ openssl-0.9.8o/ssl/s3_srvr.c
+@@ -1344,28 +1344,11 @@ int ssl3_send_server_key_exchange(SSL *s
+ 				}
+ 
+ 			s->s3->tmp.dh=dh;
+-			if ((dhp->pub_key == NULL ||
+-			     dhp->priv_key == NULL ||
+-			     (s->options & SSL_OP_SINGLE_DH_USE)))
+-				{
+-				if(!DH_generate_key(dh))
+-				    {
+-				    SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE,
+-					   ERR_R_DH_LIB);
+-				    goto err;
+-				    }
+-				}
+-			else
+-				{
+-				dh->pub_key=BN_dup(dhp->pub_key);
+-				dh->priv_key=BN_dup(dhp->priv_key);
+-				if ((dh->pub_key == NULL) ||
+-					(dh->priv_key == NULL))
+-					{
+-					SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE,ERR_R_DH_LIB);
+-					goto err;
+-					}
+-				}
++                        if (!DH_generate_key(dh))
++                                {
++                                SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE, ERR_R_DH_LIB);
++                                goto err;
++                                }
+ 			r[0]=dh->p;
+ 			r[1]=dh->g;
+ 			r[2]=dh->pub_key;

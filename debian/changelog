@@ -1,3 +1,10 @@
+openssl (0.9.8o-4squeeze23) squeeze-lts; urgency=medium
+
+  * Fix CVE-2015-3197
+  * Always generate new key for DHE.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 20 Feb 2016 12:31:42 +0100
+
 openssl (0.9.8o-4squeeze22) squeeze-lts; urgency=medium
 
   * Fix CVE-2015-3195
