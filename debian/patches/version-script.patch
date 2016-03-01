@@ -15,7 +15,7 @@ Index: openssl-1.0.1d/openssl.ld
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
 +++ openssl-1.0.1d/openssl.ld	2013-02-06 19:44:25.000000000 +0100
-@@ -0,0 +1,4620 @@
+@@ -0,0 +1,4626 @@
 +OPENSSL_1.0.0 {
 +	global:
 +		BIO_f_ssl;
@@ -4635,6 +4635,12 @@ Index: openssl-1.0.1d/openssl.ld
 +	global:
 +		CRYPTO_memcmp;
 +} OPENSSL_1.0.1;
++
++OPENSSL_1.0.1s {
++	global:
++		SRP_VBASE_get1_by_user;
++		SRP_user_pwd_free;
++} OPENSSL_1.0.1d;
 +
 Index: openssl-1.0.1d/engines/openssl.ld
 ===================================================================

@@ -1,3 +1,16 @@
+openssl (1.0.1k-3+deb8u4) jessie-security; urgency=medium
+
+  * Fix CVE-2016-0797
+  * Fix CVE-2016-0798
+  * Fix CVE-2016-0799
+  * Fix CVE-2016-0702
+  * Fix CVE-2016-0705
+  * Disable EXPORT and LOW ciphers: The DROWN attack (CVE-2016-0800)
+    makes use of those, and SLOTH attack (CVE-2015-7575) can make use of them
+    too.
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sun, 28 Feb 2016 15:29:46 +0100
+
 openssl (1.0.1k-3+deb8u2) jessie-security; urgency=medium
 
   * Fix CVE-2015-3194
