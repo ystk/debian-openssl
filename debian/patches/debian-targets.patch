@@ -1,8 +1,10 @@
-Index: openssl-1.0.1e/Configure
-===================================================================
---- openssl-1.0.1e.orig/Configure	2013-08-24 07:46:42.292313320 +0000
-+++ openssl-1.0.1e/Configure	2013-08-24 07:49:19.252316478 +0000
-@@ -105,6 +105,10 @@
+---
+ Configure |   53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+
+--- a/Configure
++++ b/Configure
+@@ -109,6 +109,10 @@ my $usage="Usage: Configure [no-<cipher>
  
  my $gcc_devteam_warn = "-Wall -pedantic -DPEDANTIC -Wno-long-long -Wsign-compare -Wmissing-prototypes -Wshadow -Wformat -Werror -DCRYPTO_MDEBUG_ALL -DCRYPTO_MDEBUG_ABORT -DREF_CHECK -DOPENSSL_NO_DEPRECATED";
  
@@ -10,10 +12,10 @@ Index: openssl-1.0.1e/Configure
 +my $debian_cflags = `dpkg-buildflags --get CFLAGS` . `dpkg-buildflags --get CPPFLAGS` . `dpkg-buildflags --get LDFLAGS` . "-Wa,--noexecstack -Wall";
 +$debian_cflags =~ s/\n/ /g;
 +
- my $strict_warnings = 0;
+ # Warn that "make depend" should be run?
+ my $warn_make_depend = 0;
  
- my $x86_gcc_des="DES_PTR DES_RISC1 DES_UNROLL";
-@@ -340,6 +346,55 @@
+@@ -350,6 +354,55 @@ my %table=(
  "osf1-alpha-cc",  "cc:-std1 -tune host -O4 -readonly_strings::(unknown):::SIXTY_FOUR_BIT_LONG RC4_CHUNK:${alpha_asm}:dlfcn:alpha-osf1-shared:::.so",
  "tru64-alpha-cc", "cc:-std1 -tune host -fast -readonly_strings::-pthread:::SIXTY_FOUR_BIT_LONG RC4_CHUNK:${alpha_asm}:dlfcn:alpha-osf1-shared::-msym:.so",
  
