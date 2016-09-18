@@ -1,3 +1,14 @@
+openssl (1.0.1t-1+deb8u3) jessie; urgency=medium
+
+  [ Kurt Roeckx ]
+  * Fix length check for CRLs. (Closes: #826552)
+
+  [ Sebastian Andrzej Siewior ]
+  * Enable asm optimisation for s390x. Patch by Dimitri John Ledkov.
+    (Closes: #833156).
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Sat, 11 Jun 2016 19:18:11 +0200
+
 openssl (1.0.1t-1+deb8u2) jessie; urgency=medium
 
   * add Update-S-MIME-certificates.patch to update expired certificates to
