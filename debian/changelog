@@ -1,3 +1,19 @@
+openssl (1.0.1t-1+deb8u4) jessie-security; urgency=medium
+
+  * Fix CVE-2016-2177
+  * Fix CVE-2016-2178
+  * Fix CVE-2016-2179
+  * Fix CVE-2016-2180
+  * Fix CVE-2016-2181
+  * Fix CVE-2016-2182
+  * Fix CVE-2016-2183
+  * Fix CVE-2016-6302
+  * Fix CVE-2016-6303
+  * Fix CVE-2016-6304
+  * Fix CVE-2016-6306
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Wed, 21 Sep 2016 21:58:48 +0200
+
 openssl (1.0.1t-1+deb8u3) jessie; urgency=medium
 
   [ Kurt Roeckx ]
