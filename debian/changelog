@@ -1,3 +1,11 @@
+openssl (1.0.1t-1+deb8u6) jessie-security; urgency=medium
+
+  * Fix CVE-2016-8610
+  * Fix CVE-2017-3731
+  * Fix CVE-2016-7056
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 26 Jan 2017 23:44:23 +0100
+
 openssl (1.0.1t-1+deb8u5) jessie-security; urgency=medium
 
   * The patch for CVE-2016-2182 was missing a fix.  (Closes: #838652, #838659)
