@@ -1,3 +1,9 @@
+openssl (1.0.1t-1+deb8u7) jessie-security; urgency=medium
+
+  * Fix CVE-2017-3735.patch
+
+ -- Kurt Roeckx <kurt@roeckx.be>  Thu, 02 Nov 2017 12:33:54 +0100
+
 openssl (1.0.1t-1+deb8u6) jessie-security; urgency=medium
 
   * Fix CVE-2016-8610
