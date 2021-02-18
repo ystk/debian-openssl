@@ -44,3 +44,11 @@ CVE-2019-1559_part1.patch
 CVE-2019-1559_part2.patch
 CVE-2019-1547.patch
 CVE-2019-1563.patch
+DirectoryString-is-a-CHOICE-type-and-therefore-uses-expli.patch
+Correctly-compare-EdiPartyName-in-GENERAL_NAME_cmp.patch
+Check-that-multi-strings-CHOICE-types-don-t-use-implicit-.patch
+Complain-if-we-are-attempting-to-encode-with-an-invalid-A.patch
+Address-a-timing-side-channel-whereby-it-is-possible.patch
+CVE-2018-0734-1.patch
+CVE-2018-0734-2.patch
+CVE-2018-0734-3.patch

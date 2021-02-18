@@ -1,3 +1,11 @@
+openssl (1.0.1t-1+deb8u13) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS team.
+  * CVE-2020-1971: EDIPARTYNAME NULL pointer de-reference.
+  * CVE-2018-0734: timing side channel in DSA.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Fri, 11 Dec 2020 12:18:48 +0100
+
 openssl (1.0.1t-1+deb8u12) jessie-security; urgency=high
 
   * Non-maintainer upload by the LTS team.
