@@ -52,3 +52,5 @@ Address-a-timing-side-channel-whereby-it-is-possible.patch
 CVE-2018-0734-1.patch
 CVE-2018-0734-2.patch
 CVE-2018-0734-3.patch
+CVE-2021-23840.patch
+CVE-2021-23841.patch

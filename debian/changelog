@@ -1,3 +1,13 @@
+openssl (1.0.1t-1+deb8u14) jessie-security; urgency=high
+
+  * Non-maintainer upload by the ELTS team.
+  * CVE-2021-23840: Prevent an issue where "Digital EnVeloPe" EVP-related calls
+    could cause applications to behave incorrectly or even crash.
+  * CVE-2021-23841: Preevent an issue in the X509 certificate handler, caused
+    by the lack of error handling whilst parsing "issuer" fields.
+
+ -- Chris Lamb <lamby@debian.org>  Thu, 18 Feb 2021 18:18:26 +0000
+
 openssl (1.0.1t-1+deb8u13) jessie-security; urgency=medium
 
   * Non-maintainer upload by the ELTS team.
