@@ -1,0 +1,49 @@
+Origin: https://github.com/openssl/openssl/commit/0daccd4dc1f1ac62181738a91714f35472e50f3c
+Origin: https://github.com/openssl/openssl/commit/cb22d2ae5a5b6069dbf66dbcce07223ac15a16de
+Reviewed-by: Sylvain Beucler <beuc@debian.org>
+Last-Update: 2021-09-13
+
+commit 0daccd4dc1f1ac62181738a91714f35472e50f3c
+Author: Viktor Dukhovni <openssl-users@dukhovni.org>
+Date:   Thu Jan 28 03:01:45 2016 -0500
+
+    Check chain extensions also for trusted certificates
+
+    This includes basic constraints, key usages, issuer EKUs and auxiliary
+    trust OIDs (given a trust suitably related to the intended purpose).
+
+    Added tests and updated documentation.
+
+    Reviewed-by: Dr. Stephen Henson <steve@openssl.org>
+
+---
+Also revert testcase change from
+cb22d2ae5a5b6069dbf66dbcce07223ac15a16de
+aligning it with later OpenSSL versions.
+
+Index: openssl-1.0.1t/crypto/x509/x509_vpm.c
+===================================================================
+--- openssl-1.0.1t.orig/crypto/x509/x509_vpm.c
++++ openssl-1.0.1t/crypto/x509/x509_vpm.c
+@@ -324,7 +324,7 @@ static const X509_VERIFY_PARAM default_t
+      "default",                 /* X509 default parameters */
+      0,                         /* Check time */
+      0,                         /* internal flags */
+-     0,                         /* flags */
++     X509_V_FLAG_TRUSTED_FIRST, /* flags */
+      0,                         /* purpose */
+      0,                         /* trust */
+      100,                       /* depth */
+Index: openssl-1.0.1t/crypto/x509/verify_extra_test.c
+===================================================================
+--- openssl-1.0.1t.orig/crypto/x509/verify_extra_test.c
++++ openssl-1.0.1t/crypto/x509/verify_extra_test.c
+@@ -169,7 +169,7 @@ static int test_alt_chains_cert_forgery(
+     i = X509_verify_cert(sctx);
+ 
+     if(i == 0 && X509_STORE_CTX_get_error(sctx)
+-                 == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT) {
++                 == X509_V_ERR_INVALID_CA) {
+         /* This is the result we were expecting: Test passed */
+         ret = 1;
+     }

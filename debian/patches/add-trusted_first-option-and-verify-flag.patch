@@ -1,0 +1,60 @@
+Origin: https://github.com/openssl/openssl/commit/db28aa86e00b9121bee94d1e65506bf22d5ca6e3
+Reviewed-by: Sylvain Beucler <beuc@debian.org>
+Last-Update: 2021-09-13
+
+commit db28aa86e00b9121bee94d1e65506bf22d5ca6e3
+Author: Dr. Stephen Henson <steve@openssl.org>
+Date:   Thu Feb 25 12:21:48 2010 +0000
+
+    add -trusted_first option and verify flag
+
+Index: openssl-1.0.1t/apps/apps.c
+===================================================================
+--- openssl-1.0.1t.orig/apps/apps.c
++++ openssl-1.0.1t/apps/apps.c
+@@ -2239,6 +2239,8 @@ int args_verify(char ***pargs, int *parg
+         flags |= X509_V_FLAG_NOTIFY_POLICY;
+     else if (!strcmp(arg, "-check_ss_sig"))
+         flags |= X509_V_FLAG_CHECK_SS_SIGNATURE;
++    else if (!strcmp(arg, "-trusted_first"))
++        flags |= X509_V_FLAG_TRUSTED_FIRST;
+     else if (!strcmp(arg, "-no_alt_chains"))
+         flags |= X509_V_FLAG_NO_ALT_CHAINS;
+     else
+Index: openssl-1.0.1t/crypto/x509/x509_vfy.c
+===================================================================
+--- openssl-1.0.1t.orig/crypto/x509/x509_vfy.c
++++ openssl-1.0.1t/crypto/x509/x509_vfy.c
+@@ -208,6 +208,19 @@ int X509_verify_cert(X509_STORE_CTX *ctx
+         /* If we are self signed, we break */
+         if (ctx->check_issued(ctx, x, x))
+             break;
++        /* If asked see if we can find issuer in trusted store first */
++        if (ctx->param->flags & X509_V_FLAG_TRUSTED_FIRST) {
++            ok = ctx->get_issuer(&xtmp, ctx, x);
++            if (ok < 0)
++              return ok;
++            /* If successful for now free up cert so it
++             * will be picked up again later.
++             */
++            if (ok > 0) {
++                X509_free(xtmp);
++                break;
++            }
++        }
+ 
+         /* If we were passed a cert chain, use it first */
+         if (ctx->untrusted != NULL) {
+Index: openssl-1.0.1t/crypto/x509/x509_vfy.h
+===================================================================
+--- openssl-1.0.1t.orig/crypto/x509/x509_vfy.h
++++ openssl-1.0.1t/crypto/x509/x509_vfy.h
+@@ -405,6 +405,8 @@ void X509_STORE_CTX_set_depth(X509_STORE
+ # define X509_V_FLAG_USE_DELTAS                  0x2000
+ /* Check selfsigned CA signature */
+ # define X509_V_FLAG_CHECK_SS_SIGNATURE          0x4000
++/* Use trusted store first */
++#define X509_V_FLAG_TRUSTED_FIRST                0x8000
+ /*
+  * If the initial chain is not trusted, do not attempt to build an alternative
+  * chain. Alternate chain checking was introduced in 1.0.1n/1.0.2b. Setting
