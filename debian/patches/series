@@ -57,3 +57,18 @@ CVE-2021-23841.patch
 
 add-trusted_first-option-and-verify-flag.patch
 Check-chain-extensions-also-for-trusted-certificates.patch
+
+CVE-2021-3712/Integer-overflow-in-ASN1_STRING_set.patch
+CVE-2021-3712/Fix-i2v_GENERAL_NAME-to-not-assume-NUL-terminated-strings.patch
+CVE-2021-3712/Fix-POLICYINFO-printing-to-not-assume-NUL-terminated-stri.patch
+CVE-2021-3712/Fix-printing-of-PROXY_CERT_INFO_EXTENSION-to-not-assume-N.patch
+CVE-2021-3712/Fix-the-name-constraints-code-to-not-assume-NUL-terminate.patch
+CVE-2021-3712/Fix-append_ia5-function-to-not-assume-NUL-terminated-stri.patch
+CVE-2021-3712/Fix-NETSCAPE_SPKI_print-function-to-not-assume-NUL-termin.patch
+CVE-2021-3712/Fix-EC_GROUP_new_from_ecparameters-to-check-the-base-leng.patch
+CVE-2021-3712/Allow-fuzz-builds-to-detect-string-overruns.patch
+CVE-2021-3712/Fix-the-error-handling-in-i2v_AUTHORITY_KEYID.patch
+CVE-2021-3712/fixup-Allow-fuzz-builds-to-detect-string-overruns.patch
+CVE-2021-3712/fixup-Fix-the-name-constraints-code-to-not-assume-NUL-ter.patch
+CVE-2021-3712/fixup-Fix-i2v_GENERAL_NAME-to-not-assume-NUL-terminated-s.patch
+

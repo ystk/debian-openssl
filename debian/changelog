@@ -1,3 +1,11 @@
+openssl (1.0.1t-1+deb8u16) jessie-security; urgency=high
+
+  * Non-maintainer upload by the ELTS Team.
+  * CVE-2021-3712
+    Read buffer overruns processing ASN.1 strings
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Fri, 22 Oct 2021 22:03:02 +0200
+
 openssl (1.0.1t-1+deb8u15) jessie-security; urgency=high
 
   * Non-maintainer upload by the ELTS Security Team.
