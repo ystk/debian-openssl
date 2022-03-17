@@ -1,3 +1,10 @@
+openssl (1.0.1t-1+deb8u17) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS team.
+  * CVE-2022-0778: infinite loop in BN_mod_sqrt.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Thu, 17 Mar 2022 10:23:41 +0100
+
 openssl (1.0.1t-1+deb8u16) jessie-security; urgency=high
 
   * Non-maintainer upload by the ELTS Team.
