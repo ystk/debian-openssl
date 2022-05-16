@@ -1,3 +1,10 @@
+openssl (1.0.1t-1+deb8u18) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS Team.
+  * CVE-2022-1292: Do not use shell to invoke openssl in c_rehash.
+
+ -- Stefano Rivera <stefanor@debian.org>  Sat, 14 May 2022 20:25:59 -0400
+
 openssl (1.0.1t-1+deb8u17) jessie-security; urgency=medium
 
   * Non-maintainer upload by the ELTS team.

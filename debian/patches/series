@@ -73,3 +73,4 @@ CVE-2021-3712/fixup-Fix-the-name-constraints-code-to-not-assume-NUL-ter.patch
 CVE-2021-3712/fixup-Fix-i2v_GENERAL_NAME-to-not-assume-NUL-terminated-s.patch
 
 CVE-2022-0778.patch
+CVE-2022-1292.patch
