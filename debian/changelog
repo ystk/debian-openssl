@@ -1,3 +1,18 @@
+openssl (1.0.1t-1+deb8u19) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS Team.
+  * Apply various upstream patches to c_rehash for the following fix.
+  * CVE-2022-2068: command injection in c_rehash.
+  * Apply c_rehash-compat.patch at the end, and update for the changes in
+    CVE-2022-2068. Also update patch for CVE-2022-1292.
+  * rehash-crt.patch: dropped. It's partially superseded by the above changes
+    (handling of extra extensions). The other part, supporting DER files, is
+    obsolete and removed in later releases, and has the potential of suffering
+    from the issue we're fixing here (command injection via filenames), so be
+    safe and drop it.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Thu, 29 Sep 2022 17:34:53 +0200
+
 openssl (1.0.1t-1+deb8u18) jessie-security; urgency=medium
 
   * Non-maintainer upload by the ELTS Team.

@@ -8,11 +8,9 @@ no-rpath.patch
 no-symbolic.patch
 pic.patch
 valgrind.patch
-rehash-crt.patch
 shared-lib-ext.patch
 stddef.patch
 version-script.patch
-c_rehash-compat.patch
 block_diginotar.patch
 block_digicert_malaysia.patch
 #padlock_conf.patch
@@ -73,4 +71,12 @@ CVE-2021-3712/fixup-Fix-the-name-constraints-code-to-not-assume-NUL-ter.patch
 CVE-2021-3712/fixup-Fix-i2v_GENERAL_NAME-to-not-assume-NUL-terminated-s.patch
 
 CVE-2022-0778.patch
+c_rehash-add-more-extensions.patch
+add-oldstyle-hash-to-c_rehash.patch
+fix-rehash-c_rehash-behaviour.patch
+c_rehash-fix-filename-scaping.patch
+c_rehash-move-flist.patch
 CVE-2022-1292.patch
+CVE-2022-2068.patch
+c_rehash-compat.patch
+rehash-crt.patch

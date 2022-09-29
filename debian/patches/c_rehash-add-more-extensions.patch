@@ -1,0 +1,78 @@
+From 80ec8d4e3ee212786dc3092b1c97305b871827f0 Mon Sep 17 00:00:00 2001
+From: TANABE Hiroyasu <h@cosat.com>
+Date: Sat, 30 Aug 2014 17:56:31 -0400
+Subject: [PATCH] RT1325,2973: Add more extensions to c_rehash
+
+Add .crt/.cer/.crl to the filenames parsed.
+
+I also updated the podpage (since it didn't exist when
+this ticket was first created, nor when it was re-created
+seven years later).
+
+Reviewed-by: Tim Hudson <tjh@openssl.org>
+---
+ doc/apps/c_rehash.pod | 5 +++--
+ tools/c_rehash.in     | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/doc/apps/c_rehash.pod b/doc/apps/c_rehash.pod
+index c564e863155..9f2a15b7364 100644
+--- a/doc/apps/c_rehash.pod
++++ b/doc/apps/c_rehash.pod
+@@ -14,7 +14,8 @@ B<c_rehash>
+ 
+ =head1 DESCRIPTION
+ 
+-B<c_rehash> scans directories and calculates a hash value of each C<.pem>
++B<c_rehash> scans directories and calculates a hash value of each
++C<.pem>, C<.crt>, C<.cer>, or C<.crl>
+ file in the specified directory list and creates symbolic links
+ for each file, where the name of the link is the hash value.
+ This utility is useful as many programs that use OpenSSL require
+@@ -42,7 +43,7 @@ incrementing the B<D> value. Duplicates are found by comparing the
+ full SHA-1 fingerprint. A warning will be displayed if a duplicate
+ is found.
+ 
+-A warning will also be displayed if there are B<.pem> files that
++A warning will also be displayed if there are files that
+ cannot be parsed as either a certificate or a CRL.
+ 
+ The program uses the B<openssl> program to compute the hashes and
+diff --git a/tools/c_rehash.in b/tools/c_rehash.in
+index bfc4a69ed4b..683b413df26 100644
+--- a/tools/c_rehash.in
++++ b/tools/c_rehash.in
+@@ -75,7 +75,7 @@ sub hash_dir {
+ 		}
+ 	}
+ 	closedir DIR;
+-	FILE: foreach $fname (grep {/\.pem$/} @flist) {
++	FILE: foreach $fname (grep {/\.(pem)|(crt)|(cer)|(crl)$/} @flist) {
+ 		# Check to see if certificates and/or CRLs present.
+ 		my ($cert, $crl) = check_file($fname);
+ 		if(!$cert && !$crl) {
+From 5a8addc432503d99dba39474892b07345a619641 Mon Sep 17 00:00:00 2001
+From: Viktor Dkhovni <viktor@openssl.org>
+Date: Sun, 7 Sep 2014 18:22:33 -0400
+Subject: [PATCH] RT1325,2973: Add more extensions to c_rehash
+
+Regexp was bracketed wrong.
+
+Reviewed-by: Tim Hudson <tjh@openssl.org>
+---
+ tools/c_rehash.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/c_rehash.in b/tools/c_rehash.in
+index 683b413df26..0fa320be58d 100644
+--- a/tools/c_rehash.in
++++ b/tools/c_rehash.in
+@@ -75,7 +75,7 @@ sub hash_dir {
+ 		}
+ 	}
+ 	closedir DIR;
+-	FILE: foreach $fname (grep {/\.(pem)|(crt)|(cer)|(crl)$/} @flist) {
++	FILE: foreach $fname (grep {/\.(pem|crt|cer|crl)$/} @flist) {
+ 		# Check to see if certificates and/or CRLs present.
+ 		my ($cert, $crl) = check_file($fname);
+ 		if(!$cert && !$crl) {

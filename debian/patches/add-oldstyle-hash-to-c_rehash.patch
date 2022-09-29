@@ -1,0 +1,243 @@
+From a787c2590e468585a1a19738e0c7f481ec91b762 Mon Sep 17 00:00:00 2001
+From: Matthias Andree <matthias.andree@gmx.de>
+Date: Sun, 7 Sep 2014 18:45:02 -0400
+Subject: [PATCH] RT2272: Add old-style hash to c_rehash
+
+In addition to Matthias's change, I also added -n to
+not remove links. And updated the manpage.
+
+Reviewed-by: Tim Hudson <tjh@openssl.org>
+---
+ doc/apps/c_rehash.pod | 38 ++++++++++++++++++--
+ tools/c_rehash.in     | 82 +++++++++++++++++++++++++++++--------------
+ 2 files changed, 91 insertions(+), 29 deletions(-)
+
+diff --git a/doc/apps/c_rehash.pod b/doc/apps/c_rehash.pod
+index 9f2a15b7364..ccce29e47b7 100644
+--- a/doc/apps/c_rehash.pod
++++ b/doc/apps/c_rehash.pod
+@@ -10,6 +10,10 @@ c_rehash - Create symbolic links to files named by the hash values
+ =head1 SYNOPSIS
+ 
+ B<c_rehash>
++B<[-old]>
++B<[-h]>
++B<[-n]>
++B<[-v]>
+ [ I<directory>...]
+ 
+ =head1 DESCRIPTION
+@@ -18,6 +22,7 @@ B<c_rehash> scans directories and calculates a hash value of each
+ C<.pem>, C<.crt>, C<.cer>, or C<.crl>
+ file in the specified directory list and creates symbolic links
+ for each file, where the name of the link is the hash value.
++(If the platform does not support symbolic links, a copy is made.)
+ This utility is useful as many programs that use OpenSSL require
+ directories to be set up like this in order to find certificates.
+ 
+@@ -35,6 +40,7 @@ is a hexadecimal character and B<D> is a single decimal digit.
+ When processing a directory, B<c_rehash> will first remove all links
+ that have a name in that syntax. If you have links in that format
+ used for other purposes, they will be removed.
++To skip the removal step, use the B<-n> flag.
+ Hashes for CRL's look similar except the letter B<r> appears after
+ the period, like this: C<HHHHHHHH.rD>.
+ 
+@@ -52,13 +58,39 @@ B<OPENSSL> environment variable to the full pathname.
+ Any program can be used, it will be invoked as follows for either
+ a certificate or CRL:
+ 
+-  $OPENSSL x509 -hash -fingerprint -noout -in FFFFFF
+-  $OPENSSL crl -hash -fingerprint -noout -in FFFFFF
++  $OPENSSL x509 -hash -fingerprint -noout -in FILENAME
++  $OPENSSL crl -hash -fingerprint -noout -in FILENAME
+ 
+-where B<FFFFFF> is the filename. It must output the hash of the
++where B<FILENAME> is the filename. It must output the hash of the
+ file on the first line, and the fingerprint on the second,
+ optionally prefixed with some text and an equals sign.
+ 
++=head1 OPTIONS
++
++=over 4
++
++=item B<-old>
++
++Use old-style hashing (MD5, as opposed to SHA-1) for generating
++links for releases before 1.0.0.  Note that current versions will
++not use the old style.
++
++=item B<-h>
++
++Display a brief usage message.
++
++=item B<-n>
++
++Do not remove existing links.
++This is needed when keeping new and old-style links in the same directory.
++
++=item B<-v>
++
++Print messages about old links removed and new links created.
++By default, B<c_rehash> only lists each directory as it is processed.
++
++=back
++
+ =head1 ENVIRONMENT
+ 
+ =over
+diff --git a/tools/c_rehash.in b/tools/c_rehash.in
+index 0fa320be58d..cd2cc39f271 100644
+--- a/tools/c_rehash.in
++++ b/tools/c_rehash.in
+@@ -1,31 +1,58 @@
+ #!/usr/local/bin/perl
+ 
+-
+ # Perl c_rehash script, scan all files in a directory
+ # and add symbolic links to their hash values.
+ 
+-my $openssl;
+-
+ my $dir;
+ my $prefix;
+ 
+-if(defined $ENV{OPENSSL}) {
+-	$openssl = $ENV{OPENSSL};
+-} else {
+-	$openssl = "openssl";
+-	$ENV{OPENSSL} = $openssl;
++my $openssl = $ENV{OPENSSL} || "openssl";
++my $pwd;
++my $x509hash = "-subject_hash";
++my $crlhash = "-hash";
++my $verbose = 0;
++my $symlink_exists=eval {symlink("",""); 1};
++my $removelinks = 1;
++
++##  Parse flags.
++while ( $ARGV[0] =~ '-.*' ) {
++    my $flag = shift @ARGV;
++    last if ( $flag eq '--');
++    if ( $flag =~ /-old/) {
++	    $x509hash = "-subject_hash_old";
++	    $crlhash = "-hash_old";
++    } elsif ( $flag =~ /-h/) {
++	    help();
++    } elsif ( $flag eq '-n' ) {
++	    $removelinks = 0;
++    } elsif ( $flag eq '-v' ) {
++	    $verbose++;
++    }
++    else {
++	    print STDERR "Usage error; try -help.\n";
++	    exit 1;
++    }
++}
++
++sub help {
++	print "Usage: c_rehash [-old] [-h] [-v] [dirs...]\n";
++	print "   -old use old-style digest\n";
++	print "   -h print this help text\n";
++	print "   -v print files removed and linked\n";
++	exit 0;
+ }
+ 
+-my $pwd;
+ eval "require Cwd";
+ if (defined(&Cwd::getcwd)) {
+ 	$pwd=Cwd::getcwd();
+ } else {
+-	$pwd=`pwd`; chomp($pwd);
++	$pwd=`pwd`;
++	chomp($pwd);
+ }
+-my $path_delim = ($pwd =~ /^[a-z]\:/i) ? ';' : ':'; # DOS/Win32 or Unix delimiter?
+ 
+-$ENV{PATH} = "$prefix/bin" . ($ENV{PATH} ? $path_delim . $ENV{PATH} : ""); # prefix our path
++# DOS/Win32 or Unix delimiter?  Prefix our installdir, then search.
++my $path_delim = ($pwd =~ /^[a-z]\:/i) ? ';' : ':';
++$ENV{PATH} = "$prefix/bin" . ($ENV{PATH} ? $path_delim . $ENV{PATH} : "");
+ 
+ if(! -x $openssl) {
+ 	my $found = 0;
+@@ -66,16 +93,19 @@ sub hash_dir {
+ 	my %hashlist;
+ 	print "Doing $_[0]\n";
+ 	chdir $_[0];
+-	opendir(DIR, ".");
+-	my @flist = readdir(DIR);
+-	# Delete any existing symbolic links
+-	foreach (grep {/^[\da-f]+\.r{0,1}\d+$/} @flist) {
+-		if(-l $_) {
+-			unlink $_;
++	if ( $removelinks ) {
++		opendir(DIR, ".");
++		my @flist = readdir(DIR);
++		closedir DIR;
++		# Delete any existing symbolic links
++		foreach (grep {/^[\da-f]+\.r{0,1}\d+$/} @flist) {
++			if(-l $_) {
++				unlink $_;
++				print "unlink $_" if $verbose;
++			}
+ 		}
+ 	}
+-	closedir DIR;
+-	FILE: foreach $fname (grep {/\.(pem|crt|cer|crl)$/} @flist) {
++	FILE: foreach $fname (grep {/\.(pem)|(crt)|(cer)|(crl)$/} @flist) {
+ 		# Check to see if certificates and/or CRLs present.
+ 		my ($cert, $crl) = check_file($fname);
+ 		if(!$cert && !$crl) {
+@@ -117,7 +147,7 @@ sub check_file {
+ sub link_hash_cert {
+ 		my $fname = $_[0];
+ 		$fname =~ s/'/'\\''/g;
+-		my ($hash, $fprint) = `"$openssl" x509 -hash -fingerprint -noout -in "$fname"`;
++		my ($hash, $fprint) = `"$openssl" x509 $x509hash -fingerprint -noout -in "$fname"`;
+ 		chomp $hash;
+ 		chomp $fprint;
+ 		$fprint =~ s/^.*=//;
+@@ -133,16 +163,16 @@ sub link_hash_cert {
+ 			$suffix++;
+ 		}
+ 		$hash .= ".$suffix";
+-		print "$fname => $hash\n";
+-		$symlink_exists=eval {symlink("",""); 1};
+ 		if ($symlink_exists) {
+ 			symlink $fname, $hash;
++			print "link $fname -> $hash\n" if $verbose;
+ 		} else {
+ 			open IN,"<$fname" or die "can't open $fname for read";
+ 			open OUT,">$hash" or die "can't open $hash for write";
+ 			print OUT <IN>;	# does the job for small text files
+ 			close OUT;
+ 			close IN;
++			print "copy $fname -> $hash\n" if $verbose;
+ 		}
+ 		$hashlist{$hash} = $fprint;
+ }
+@@ -152,7 +182,7 @@ sub link_hash_cert {
+ sub link_hash_crl {
+ 		my $fname = $_[0];
+ 		$fname =~ s/'/'\\''/g;
+-		my ($hash, $fprint) = `"$openssl" crl -hash -fingerprint -noout -in '$fname'`;
++		my ($hash, $fprint) = `"$openssl" crl $crlhash -fingerprint -noout -in '$fname'`;
+ 		chomp $hash;
+ 		chomp $fprint;
+ 		$fprint =~ s/^.*=//;
+@@ -168,12 +198,12 @@ sub link_hash_crl {
+ 			$suffix++;
+ 		}
+ 		$hash .= ".r$suffix";
+-		print "$fname => $hash\n";
+-		$symlink_exists=eval {symlink("",""); 1};
+ 		if ($symlink_exists) {
+ 			symlink $fname, $hash;
++			print "link $fname -> $hash\n" if $verbose;
+ 		} else {
+ 			system ("cp", $fname, $hash);
++			print "cp $fname -> $hash\n" if $verbose;
+ 		}
+ 		$hashlist{$hash} = $fprint;
+ }
