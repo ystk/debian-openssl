@@ -80,3 +80,5 @@ CVE-2022-1292.patch
 CVE-2022-2068.patch
 c_rehash-compat.patch
 rehash-crt.patch
+Fix-a-UAF-resulting-from-a-bug-in-BIO_new_NDEF.patch
+CVE-2023-0286-Fix-GENERAL_NAME_cmp-for-x400Address-1.1.1.patch

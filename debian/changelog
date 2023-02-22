@@ -1,3 +1,11 @@
+openssl (1.0.1t-1+deb8u20) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS Team.
+  * CVE-2023-0215 (Use-after-free following BIO_new_NDEF).
+  * CVE-2023-0286 (X.400 address type confusion in X.509 GeneralName).
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Wed, 22 Feb 2023 09:34:24 +0100
+
 openssl (1.0.1t-1+deb8u19) jessie-security; urgency=medium
 
   * Non-maintainer upload by the ELTS Team.
