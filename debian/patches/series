@@ -82,3 +82,11 @@ c_rehash-compat.patch
 rehash-crt.patch
 Fix-a-UAF-resulting-from-a-bug-in-BIO_new_NDEF.patch
 CVE-2023-0286-Fix-GENERAL_NAME_cmp-for-x400Address-1.1.1.patch
+CVE-2023-0464.patch
+# CVE-2023-0466
+Fix-documentation-of-X509_VERIFY_PARAM_add0_policy.patch
+# CVE-2023-2650
+Restrict-the-size-of-OBJECT-IDENTIFIERs-that-OBJ_obj2txt-.patch
+CVE-2023-3446.patch
+CVE-2023-0465.patch
+Update-further-expiring-certificates-that-affect-tests.patch
