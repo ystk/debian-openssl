@@ -1,1 +1,2 @@
 debian/upstream-signing-key.pgp
+debian/patches/CVE-2024-0727-2.patch

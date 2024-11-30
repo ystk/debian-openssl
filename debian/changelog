@@ -1,3 +1,14 @@
+openssl (1.0.1t-1+deb8u22) jessie-security; urgency=high
+
+  * Non-maintainer upload by the ELTS Team.
+  * Backport upstream fixes for
+    - CVE-2023-5678 (denial of service w/ excessively long X9.42 DH keys)
+      (Closes: #1055473)
+    - CVE-2024-0727 (denial of service on null field in PKCS12 file)
+      (Closes: #1061582).
+
+ -- Sean Whitton <spwhitton@spwhitton.name>  Fri, 29 Nov 2024 11:47:24 +0800
+
 openssl (1.0.1t-1+deb8u21) jessie-security; urgency=medium
 
   * Non-maintainer upload by the ELTS Team.

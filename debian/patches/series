@@ -90,3 +90,6 @@ Restrict-the-size-of-OBJECT-IDENTIFIERs-that-OBJ_obj2txt-.patch
 CVE-2023-3446.patch
 CVE-2023-0465.patch
 Update-further-expiring-certificates-that-affect-tests.patch
+CVE-2023-5678.patch
+CVE-2024-0727-1.patch
+CVE-2024-0727-2.patch
